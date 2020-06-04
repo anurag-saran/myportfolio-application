@@ -1,0 +1,67 @@
+kind: VirtualService
+apiVersion: networking.istio.io/v1alpha3
+metadata:
+  name: keyforthbank-customer-virtual-service  # "just" a name for this virtualservice, no connection with service.
+  namespace: default
+spec:
+  hosts:
+    - keyforthbank-customer-service.default.svc.cluster.local  # The Service DNS (ie the regular K8S Service) name that we're applying routing rules to.
+  http:
+    - route:
+        - destination:
+            host: keyforthbank-customer-service.default.svc.cluster.local # The Target DNS name, they can be diff services.
+            subset: old-group  # The name defined in the DestinationRule
+          weight: 100
+        - destination:
+            host: keyforthbank-customer-service.default.svc.cluster.local # The Target DNS name
+            subset: new-group  # The name defined in the DestinationRule
+          weight: 0
+---
+kind: DestinationRule       # Defining which pods should be part of each subset
+apiVersion: networking.istio.io/v1alpha3
+metadata:
+  name: keyforthbank-customer-destination-rule # This can be anything you like.
+  namespace: default
+spec:
+  host: keyforthbank-customer-service # Service
+  subsets:
+    - labels:   # SELECTOR.
+        version: blue # find pods with label "old"
+      name: old-group
+    - labels:
+        version: green
+      name: new-group
+---
+kind: VirtualService
+apiVersion: networking.istio.io/v1alpha3
+metadata:
+  name: keyforthbank-photo-virtual-service  # "just" a name for this virtualservice, no connection with service.
+  namespace: default
+spec:
+  hosts:
+    - keyforthbank-photo-service.default.svc.cluster.local  # The Service DNS (ie the regular K8S Service) name that we're applying routing rules to.
+  http:
+    - route:
+        - destination:
+            host: keyforthbank-photo-service.default.svc.cluster.local # The Target DNS name, they can be diff services.
+            subset: old-group  # The name defined in the DestinationRule
+          weight: 100
+        - destination:
+            host: keyforthbank-photo-service.default.svc.cluster.local # The Target DNS name
+            subset: new-group  # The name defined in the DestinationRule
+          weight: 0
+---
+kind: DestinationRule       # Defining which pods should be part of each subset
+apiVersion: networking.istio.io/v1alpha3
+metadata:
+  name: keyforthbank-photo-destination-rule # This can be anything you like.
+  namespace: default
+spec:
+  host: keyforthbank-photo-service # Service
+  subsets:
+    - labels:   # SELECTOR.
+        version: blue # find pods with label "old"
+      name: old-group
+    - labels:
+        version: green
+      name: new-group

@@ -1,0 +1,21 @@
+kind: VirtualService
+apiVersion: networking.istio.io/v1alpha3
+metadata:
+  name: keyforthbank-customer-service
+  namespace: default
+spec:
+  hosts:
+    - keyforthbank-customer-service.default.svc.cluster.local
+  http:
+    - fault:
+        abort:
+          httpStatus: 503
+          percentage:
+            value: 10
+        delay:
+          percentage: 
+            value: 80
+          fixedDelay: 5s
+      route:
+        - destination:
+            host: keyforthbank-customer-service.default.svc.cluster.local

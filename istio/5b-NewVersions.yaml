@@ -1,0 +1,49 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: photoreal
+spec:
+  selector:
+    matchLabels:
+      app: photo
+  replicas: 1
+  template: # template for the pods
+    metadata:
+      labels:
+        app: photo
+        version: green
+    spec:
+      containers:
+      - name: photo
+        image: quay.io/asaran/photo:1.9
+        env:
+        - name: SPRING_PROFILES_ACTIVE
+          value: production-microservice
+        command: ["java","-Xmx50m","-jar","app.jar"]
+        imagePullPolicy: Always
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: customermr
+spec:
+  selector:
+    matchLabels:
+      app: customer
+  replicas: 1
+  template: # template for the pods
+    metadata:
+      labels:
+        app: customer
+        version: green
+    spec:
+      containers:
+      - name: customer
+        image: quay.io/asaran/customer:1.10
+        env:
+        - name: SPRING_PROFILES_ACTIVE
+          value: production-microservice
+        command: ["java","-Xmx50m","-jar","app.jar"]
+        imagePullPolicy: Always
+---

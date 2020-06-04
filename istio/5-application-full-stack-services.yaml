@@ -1,0 +1,217 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: customer
+spec:
+  selector:
+    matchLabels:
+      app: customer
+  replicas: 1
+  template: # template for the pods
+    metadata:
+      labels:
+        app: customer
+        version: blue
+    spec:
+      containers:
+      - name: customer
+        image: quay.io/asaran/customer:1.9
+        env:
+        - name: SPRING_PROFILES_ACTIVE
+          value: production-microservice
+        command: ["java","-Xmx50m","-jar","app.jar"]
+        imagePullPolicy: Always
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webapp
+spec:
+  selector:
+    matchLabels:
+      app: webapp
+  replicas: 1
+  template: # template for the pods
+    metadata:
+      labels:
+        app: webapp
+        version: original
+    spec:
+      containers:
+      - name: webapp
+        image: quay.io/asaran/webui:1.11
+        env:
+        - name: SPRING_PROFILES_ACTIVE
+          value: production-microservice
+        imagePullPolicy: Always
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: photo
+spec:
+  selector:
+    matchLabels:
+      app: photo
+  replicas: 1
+  template: # template for the pods
+    metadata:
+      labels:
+        app: photo
+        version: blue
+    spec:
+      containers:
+      - name: photo
+        image: quay.io/asaran/photo:1.7
+        env:
+        - name: SPRING_PROFILES_ACTIVE
+          value: production-microservice
+        imagePullPolicy: Always
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: account
+spec:
+  selector:
+    matchLabels:
+      app: account
+  replicas: 1
+  template: # template for the pods
+    metadata:
+      labels:
+        app: account
+    spec:
+      containers:
+      - name: account
+        image: quay.io/asaran/account:1.7
+        env:
+        - name: SPRING_PROFILES_ACTIVE
+          value: production-microservice
+        command: ["java","-Xmx50m","-jar","app.jar"]
+        imagePullPolicy: Always
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: stock
+spec:
+  selector:
+    matchLabels:
+      app: stock
+  replicas: 1
+  template: # template for the pods
+    metadata:
+      labels:
+        app: stock
+    spec:
+      containers:
+      - name: stock
+        image: quay.io/asaran/stock:1.6
+        env:
+        - name: SPRING_PROFILES_ACTIVE
+          value: production-microservice
+        imagePullPolicy: Always
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: portfolio
+spec:
+  selector:
+    matchLabels:
+      app: portfolio
+  replicas: 1
+  template: # template for the pods
+    metadata:
+      labels:
+        app: portfolio
+    spec:
+      containers:
+      - name: portfolio
+        image: quay.io/asaran/portfolio:1.9
+        env:
+        - name: SPRING_PROFILES_ACTIVE
+          value: production-microservice
+        imagePullPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: keyforthbank-customer-service
+spec:
+  selector:
+    app: customer
+  ports:
+    - name: http
+      port: 8086
+      nodePort: 30086
+  type: NodePort
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: keyforthbank-account-service
+spec:
+  selector:
+    app: account
+  ports:
+    - name: http
+      port: 8087
+      nodePort: 30087
+  type: NodePort
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: keyforthbank-stock-service
+spec:
+  selector:
+    app: stock
+  ports:
+    - name: http
+      port: 8083
+      nodePort: 30083
+  type: NodePort
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: keyforthbank-portfolio-service
+spec:
+  selector:
+    app: portfolio
+  ports:
+    - name: http
+      port: 8085
+      nodePort: 30085
+  type: NodePort
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: keyforthbank-photo-service
+spec:
+  selector:
+    app: photo
+  ports:
+    - name: http
+      port: 8084
+      nodePort: 30084
+  type: NodePort
+  # type: ClusterIP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: keyforthbank-webapp-service
+spec:
+  selector:
+    app: webapp
+  ports:
+    - name: http
+      port: 4200
+      nodePort: 30200
+  type: NodePort
+---

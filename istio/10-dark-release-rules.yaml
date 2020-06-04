@@ -1,0 +1,36 @@
+kind: VirtualService
+apiVersion: networking.istio.io/v1alpha3
+metadata:
+  name: keyforthbank-customer-service
+  namespace: default
+spec:
+  hosts:
+    - keyforthbank-customer-service.default.svc.cluster.local
+  http:
+    - match:
+        - headers:
+            x-serviceselector:
+              exact: mr
+      route:
+        - destination:
+            host: keyforthbank-customer-service.default.svc.cluster.local
+            subset: new
+    - route:
+        - destination:
+            host: keyforthbank-customer-service.default.svc.cluster.local
+            subset: old
+---
+kind: DestinationRule
+apiVersion: networking.istio.io/v1alpha3
+metadata:
+  name: keyforthbank-customer-service
+  namespace: default
+spec:
+  host: keyforthbank-customer-service.default.svc.cluster.local
+  subsets:
+    - labels:
+        version: old
+      name: old
+    - labels:
+        version: new
+      name: new

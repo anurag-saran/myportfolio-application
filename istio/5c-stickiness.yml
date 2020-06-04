@@ -1,0 +1,30 @@
+kind: VirtualService
+apiVersion: networking.istio.io/v1alpha3
+metadata:
+  name: keyforthbank-customer-virtual-service  # "just" a name for this virtualservice, no connection with service.
+  namespace: default
+spec:
+  hosts:
+    - keyforthbank-customer-service.default.svc.cluster.local  # The Service DNS (ie the regular K8S Service) name that we're applying routing rules to.
+  http:
+    - route:
+        - destination:
+            host: keyforthbank-customer-service.default.svc.cluster.local # The Target DNS name, they can be diff services.
+            subset: old-new-group  # The name defined in the DestinationRule
+          # weight: 100 not needed if there's only one.
+---
+kind: DestinationRule       # Defining which pods should be part of each subset
+apiVersion: networking.istio.io/v1alpha3
+metadata:
+  name: keyforthbank-customer-destination-rule # This can be anything you like.
+  namespace: default
+spec:
+  host: keyforthbank-customer-service # Service
+  trafficPolicy:
+    loadBalancer:
+      consistentHash:
+        httpHeaderName: "x-myval"
+  subsets:
+    - labels:   # SELECTOR.
+        app: customer
+      name: old-new-group

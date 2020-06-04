@@ -1,0 +1,18 @@
+kind: DestinationRule
+apiVersion: networking.istio.io/v1alpha3
+metadata:
+  name: keyforthbank-customer-service
+  namespace: default
+spec:
+  host: keyforthbank-customer-service.default.svc.cluster.local
+#   host: *.default.svc.cluster.local
+  trafficPolicy:
+    outlierDetection:
+      consecutiveErrors: 7
+      interval: 10s
+      baseEjectionTime: 45s
+#   trafficPolicy:
+#     outlierDetection: # Circuit Breakers HAVE TO BE SWITCHED ON
+#       maxEjectionPercent: 100
+#       consecutiveErrors: 10
+#       interval: 5s
