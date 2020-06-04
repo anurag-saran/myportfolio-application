@@ -58,7 +58,7 @@ docker container run --network myservice --name photo-container -d -p 8084:8084 
 docker run -ti -p 4200:4200 webui:1.4
 
 ## Run Docker containers
-⋅⋅⋅
+```
  docker run -ti -p 8089:8085 portfolio:1.4
  docker run -ti -p 8085:8085 portfolio:1.4
  docker run -ti -p 8087:8087 account:1.4
@@ -66,18 +66,18 @@ docker run -ti -p 4200:4200 webui:1.4
  docker run -ti -p 8083:8083 stock:1.4
  docker run -ti -p 8084:8084 photo:1.4
  docker run -ti -p 4200:4200 webui:1.4
-⋅⋅⋅
+```
 ## Tag Docker containers
-⋅⋅⋅
+```
  docker tag customer:1.6 quay.io/asaran/customer:1.6
  docker tag account:1.6 quay.io/asaran/account:1.6
  docker tag stock:1.6 quay.io/asaran/stock:1.6
  docker tag portfolio:1.6 quay.io/asaran/portfolio:1.6
  docker tag photo:1.6 quay.io/asaran/photo:1.6
  docker tag webui:1.6 quay.io/asaran/webui:1.6
-⋅⋅⋅
+```
 ## Push Docker containers
-⋅⋅⋅
+```
  docker login quay.io
  docker push quay.io/asaran/customer:1.6
  docker push quay.io/asaran/account:1.6
@@ -85,7 +85,7 @@ docker run -ti -p 4200:4200 webui:1.4
  docker push quay.io/asaran/portfolio:1.6
  docker push quay.io/asaran/photo:1.6
  docker push quay.io/asaran/webui:1.6
-⋅⋅⋅
+```
 ## Run docker Command for frontend
 + docker build -t service-ui-image .
 + docker run --name service-ui-container -d -p 127.0.0.1:8088:80 service-ui-image
