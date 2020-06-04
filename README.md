@@ -17,25 +17,25 @@ cd ../Stock
 java -jar target/stock-20.06.1-SNAPSHOT.jar -Dspring.profiles.active=standalone
 
 ## Build containers
-+ cd ../portfolio
-+ mvn clean install -DskipTests
-+ docker build --tag portfolio:1.6 -f src/main/docker/Dockerfile .
-+ cd ../account
-+ mvn clean install -DskipTests
-+ docker build --tag account:1.6 -f src/main/docker/Dockerfile .
-+ cd ../customer/
-+ mvn clean install -DskipTests
-+ docker build --tag customer:1.6 -f src/main/docker/Dockerfile .
-+ cd ../stock/
-+ mvn clean install -DskipTests
-+ docker build --tag stock:1.6 -f src/main/docker/Dockerfile .
-+ cd ../photo-service/
-+ mvn clean install -DskipTests
-+ docker build --tag photo:1.6 -f src/main/docker/Dockerfile .
-+ cd ../service-ui
-+ ng build
-+ docker build --tag webui:1.6 -f Dockerfile .
-+ docker build -t service-ui-image .
+⋅⋅⋅ cd ../portfolio
+⋅⋅⋅ mvn clean install -DskipTests
+⋅⋅⋅ docker build --tag portfolio:1.6 -f src/main/docker/Dockerfile .
+⋅⋅⋅ cd ../account
+⋅⋅⋅ mvn clean install -DskipTests
+⋅⋅⋅ docker build --tag account:1.6 -f src/main/docker/Dockerfile .
+⋅⋅⋅ cd ../customer/
+⋅⋅⋅ mvn clean install -DskipTests
+⋅⋅⋅ docker build --tag customer:1.6 -f src/main/docker/Dockerfile .
+⋅⋅⋅ cd ../stock/
+⋅⋅⋅ mvn clean install -DskipTests
+⋅⋅⋅ docker build --tag stock:1.6 -f src/main/docker/Dockerfile .
+⋅⋅⋅ cd ../photo-service/
+⋅⋅⋅ mvn clean install -DskipTests
+⋅⋅⋅ docker build --tag photo:1.6 -f src/main/docker/Dockerfile .
+⋅⋅⋅ cd ../service-ui
+⋅⋅⋅ ng build
+⋅⋅⋅ docker build --tag webui:1.6 -f Dockerfile .
+⋅⋅⋅ docker build -t service-ui-image .
 
 ##Docker Setup
 ### create network
