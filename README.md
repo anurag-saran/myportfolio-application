@@ -6,17 +6,20 @@ portfolio-service : 8085
 stockprice-service : 8083
 
 ## Start Minikube
+```
 minikube start --cpus 4  --memory 8192
 Build each app 
 mvn clean install -DskipTests
-
+```
 ## Run Spring App and apply correcrt profile
+```
 -Dspring.profiles.active=production
 ./mvnw spring-boot:run -Dspring.profiles.active=standalone
 cd ../Stock
 java -jar target/stock-20.06.1-SNAPSHOT.jar -Dspring.profiles.active=standalone
-
+```
 ## Build containers
+```
 ⋅⋅⋅ cd ../portfolio
 ⋅⋅⋅ mvn clean install -DskipTests
 ⋅⋅⋅ docker build --tag portfolio:1.6 -f src/main/docker/Dockerfile .
@@ -36,7 +39,7 @@ java -jar target/stock-20.06.1-SNAPSHOT.jar -Dspring.profiles.active=standalone
 ⋅⋅⋅ ng build
 ⋅⋅⋅ docker build --tag webui:1.6 -f Dockerfile .
 ⋅⋅⋅ docker build -t service-ui-image .
-
+```
 ##Docker Setup
 ### create network
 docker network create -d bridge myservice
